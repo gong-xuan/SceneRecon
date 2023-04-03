@@ -1,0 +1,43 @@
+DATASET: 'scannet'
+LOGDIR: '../checkpoints/scannet/v0'
+TSDF_ROOT: '/data_local/xuangong/scannet'
+
+TRAIN:
+  PATH: '/data_local/xuangong/scannet/scans'
+  EPOCHS: 51
+  N_VIEWS: 9
+  LR: 1e-3
+  N_WORKERS: 4
+  LREPOCHS: '12,24,48:2'
+  BATCH_SIZE: 4
+  SAVE_FREQ: 1
+
+
+TEST:
+  PATH: '/data_local/xuangong/scannet/scans_test'
+  N_VIEWS: 9
+  N_WORKERS: 32
+  SAVE_SCENE_MESH: '../results/scannet/v0'
+  BATCH_SIZE: 1
+
+MODEL:
+  N_LAYER: 3
+  N_VOX: [96, 96, 96]
+  VOXEL_SIZE: 0.04
+  TRAIN_NUM_SAMPLE: [4096, 16384, 65536]
+  TEST_NUM_SAMPLE: [4096, 16384, 65536]
+
+  BACKBONE2D:
+    ARC: 'fpn-mnas-1'
+
+  FUSION:
+    FUSION_ON: True #False in stage1
+    HIDDEN_DIM: 64
+
+    AVERAGE: False
+    FULL: True #False in stage 1
+
+  LW: [1.0, 1.0, 0.8, 0.8, 0.64, 0.64]
+
+  THRESHOLDS: [0, 0, 0]
+  POS_WEIGHT: 1.5
